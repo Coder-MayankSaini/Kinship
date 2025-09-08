@@ -1,6 +1,6 @@
 # Kinship - Peer-to-Peer Rental Platform
 
-![Kinship Logo](assets/images/logo.png)
+![Kinship Logo](assets/images/kinship_logo.webp)
 
 ## 🌟 Overview
 
@@ -62,42 +62,87 @@ Kinship is a modern, professional peer-to-peer rental platform that enables user
 - Touch-friendly interactions
 - Accessible navigation
 
+### 🛠️ **Development & Debugging Tools**
+- Authentication system testing pages
+- Listing management debugging tools
+- Data clearing and reset utilities
+- Quick login functionality for development
+- Multi-environment authentication support
+
+### 📋 **Legal & Community Pages**
+- Community guidelines and policies
+- Terms of service documentation
+- User safety and trust features
+
 ## 🏗️ Project Structure
 
 ```
-kinship-rental-platform/
-├── 📁 .kiro/                    # Kiro IDE configuration
-│   └── specs/                   # Project specifications
+Kinship/
+├── 📁 .git/                     # Git version control
+├── 📁 .vscode/                  # VS Code configuration
 ├── 📁 assets/                   # Static assets
 │   ├── icons/                   # Icon files
-│   └── images/                  # Image assets
+│   └── images/                  # Image assets (logo, backgrounds)
 ├── 📁 css/                      # Stylesheets
-│   ├── main.css                 # Core styles and layout
+│   ├── auth.css                 # Authentication page styles
+│   ├── base.css                 # Base styles and resets
+│   ├── browse-fixes.css         # Browse page bug fixes
+│   ├── browse.css               # Browse page styles
 │   ├── components.css           # Component-specific styles
+│   ├── homepage.css             # Homepage-specific styles
+│   ├── item-detail.css          # Item detail page styles
+│   ├── list-item-new.css        # New listing form styles
+│   ├── list-item.css            # Listing page styles
+│   ├── navigation.css           # Navigation component styles
+│   ├── profile.css              # Profile page styles
 │   └── responsive.css           # Responsive design rules
 ├── 📁 js/                       # JavaScript modules
-│   ├── main.js                  # Application entry point
-│   ├── router.js                # Client-side routing
-│   ├── auth.js                  # Authentication logic
-│   ├── storage.js               # Local storage management
-│   ├── components.js            # Reusable UI components
-│   ├── browse.js                # Browse page functionality
-│   ├── item-detail.js           # Item detail page logic
-│   ├── profile.js               # User profile management
-│   ├── listings.js              # Listing management
-│   ├── booking.js               # Rental booking system
-│   ├── search.js                # Search functionality
-│   ├── utils.js                 # Utility functions
 │   ├── accessibility.js         # Accessibility features
+│   ├── admin-utils.js           # Administrative utilities
+│   ├── app-finalizer.js         # App initialization finalization
+│   ├── auth-backup.js           # Authentication backup methods
+│   ├── auth-helper.js           # Authentication helper functions
+│   ├── auth-minimal.js          # Minimal authentication
+│   ├── auth-test.js             # Authentication testing
+│   ├── auth.js                  # Main authentication logic
+│   ├── availability-calendar.js # Calendar for item availability
+│   ├── booking.js               # Rental booking system
+│   ├── browse.js                # Browse page functionality
+│   ├── check-auth-system.js     # Authentication system checker
+│   ├── components.js            # Reusable UI components
+│   ├── data-initializer.js      # Data initialization
+│   ├── debug-listing.js         # Listing debugging utilities
+│   ├── init.js                  # Application initialization
+│   ├── item-detail.js           # Item detail page logic
+│   ├── listings-compatible.js   # Legacy listing compatibility
+│   ├── listings-new.js          # New listing functionality
+│   ├── listings.js              # Main listing management
+│   ├── login-status.js          # Login status management
+│   ├── main.js                  # Application entry point
+│   ├── multi-date-picker.js     # Multi-date selection component
+│   ├── navbar-cleanup.js        # Navigation cleanup utilities
+│   ├── pirate-animations.js     # Fun animations and effects
+│   ├── profile.js               # User profile management
+│   ├── quick-login.js           # Quick login functionality
+│   ├── rental-date-picker.js    # Rental date selection
+│   ├── router.js                # Client-side routing
 │   ├── sample-data.js           # Demo data generation
-│   ├── sample-reviews.js        # Demo reviews
-│   └── app-finalizer.js         # App initialization
-├── 📄 index.html                # Homepage
+│   ├── search.js                # Search functionality
+│   ├── storage.js               # Local storage management
+│   └── utils.js                 # Utility functions
+├── 📄 auth.html                 # Authentication page
 ├── 📄 browse.html               # Browse/search page
+├── 📄 clear-listings.html       # Clear listings utility page
+├── 📄 community-guidelines.html # Community guidelines page
+├── 📄 debug-auth.html           # Authentication debugging page
+├── 📄 debug-listings.html       # Listings debugging page
+├── 📄 index.html                # Homepage
 ├── 📄 item-detail.html          # Item detail page
-├── 📄 auth.html                 # Login/registration
-├── 📄 profile.html              # User profile
-├── 📄 list-item.html            # Create listing
+├── 📄 list-item-new.html        # New listing creation page
+├── 📄 list-item.html            # Listing management page
+├── 📄 profile.html              # User profile page
+├── 📄 terms-of-service.html     # Terms of service page
+├── 📄 test-auth.html            # Authentication testing page
 └── 📄 README.md                 # This file
 ```
 
@@ -154,6 +199,18 @@ Login → Profile → List New Item → Manage Bookings → Reviews
    - Preview and publish
 3. Item goes live on platform
 
+### **Additional Pages**
+
+#### **Legal & Community**
+- `community-guidelines.html` - Community standards and guidelines
+- `terms-of-service.html` - Terms of service and legal information
+
+#### **Development Tools**
+- `clear-listings.html` - Administrative tool to clear all listings
+- `debug-auth.html` - Authentication debugging interface
+- `debug-listings.html` - Listing system debugging tools
+- `test-auth.html` - Authentication testing page
+
 ## 🛠️ Technical Architecture
 
 ### **Frontend Technologies**
@@ -166,28 +223,60 @@ Login → Profile → List New Item → Manage Bookings → Reviews
 
 #### **Core Modules**
 - `main.js` - Application initialization and page routing
+- `init.js` - Primary application initialization
 - `router.js` - Client-side navigation management
 - `storage.js` - Local storage abstraction layer
 - `utils.js` - Common utility functions
+- `data-initializer.js` - Data setup and initialization
+
+#### **Authentication System**
+- `auth.js` - Main authentication logic
+- `auth-helper.js` - Authentication helper functions
+- `auth-minimal.js` - Minimal authentication implementation
+- `auth-backup.js` - Backup authentication methods
+- `auth-test.js` - Authentication testing utilities
+- `quick-login.js` - Development quick login
+- `login-status.js` - Login status management
+- `check-auth-system.js` - Authentication system verification
 
 #### **Feature Modules**
-- `auth.js` - User authentication and session management
 - `components.js` - Reusable UI components (modals, cards, etc.)
 - `browse.js` - Search and filtering functionality
 - `item-detail.js` - Item display and booking interface
 - `profile.js` - User profile and dashboard
-- `listings.js` - Item listing management
+- `listings.js` - Main item listing management
+- `listings-new.js` - New listing creation
+- `listings-compatible.js` - Legacy listing support
 - `booking.js` - Rental booking system
+- `search.js` - Advanced search functionality
 
-#### **Enhancement Modules**
+#### **Calendar & Date Systems**
+- `availability-calendar.js` - Item availability calendar
+- `rental-date-picker.js` - Rental date selection
+- `multi-date-picker.js` - Multi-date selection component
+
+#### **Enhancement & Utility Modules**
 - `accessibility.js` - WCAG compliance features
 - `sample-data.js` - Demo data for testing
-- `app-finalizer.js` - Performance optimizations
+- `app-finalizer.js` - Performance optimizations and finalization
+- `admin-utils.js` - Administrative utilities
+- `navbar-cleanup.js` - Navigation cleanup utilities
+- `pirate-animations.js` - Fun animations and visual effects
+
+#### **Development & Debugging**
+- `debug-listing.js` - Listing debugging utilities
 
 ### **CSS Architecture**
-- `main.css` - Base styles, typography, layout
-- `components.css` - Component-specific styling
+- `base.css` - Base styles, resets, and foundational typography
+- `components.css` - Reusable component styling
 - `responsive.css` - Mobile-first responsive design
+- `auth.css` - Authentication pages styling
+- `browse.css` & `browse-fixes.css` - Browse page styles and fixes
+- `homepage.css` - Homepage-specific styling
+- `item-detail.css` - Item detail page styling
+- `list-item.css` & `list-item-new.css` - Listing pages styling
+- `navigation.css` - Navigation component styling
+- `profile.css` - User profile page styling
 
 ### **Data Storage**
 All data is stored locally using browser localStorage:
@@ -217,6 +306,13 @@ All data is stored locally using browser localStorage:
    # Using PHP
    php -S localhost:8000
    ```
+
+### **Development Pages**
+For development and debugging, the following pages are available:
+- `debug-auth.html` - Authentication system debugging
+- `debug-listings.html` - Listing management debugging
+- `test-auth.html` - Authentication testing interface
+- `clear-listings.html` - Utility to clear all listing data
 
 ### **Demo Data**
 The application includes sample data for demonstration:
