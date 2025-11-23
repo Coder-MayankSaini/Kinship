@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Browse Items - Kinship</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/favicon.png">
+    <link rel="shortcut icon" href="assets/images/favicon.png">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/browse.css">
+    <link rel="stylesheet" href="css/browse-fixes.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body class="browse-body">
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <img src="assets/images/kinship_logo.webp" alt="Kinship" class="logo-image">
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu" aria-hidden="true">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html" class="active">Browse</a></li>
+                    <li><a href="list-item.html">List Item</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="auth.html">Login</a></li>
+                </ul>
+                <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
+                    aria-controls="nav-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="browse-page" role="main">
+        <div class="page-header">
+            <h1 id="browse-heading">Browse Items</h1>
+            <p class="subtitle">Find the perfect item to rent from our community</p>
+            <div class="search-controls">
+                <label for="search-input" class="sr-only">Search items</label>
+                <input type="text" id="search-input" placeholder="Search items..." aria-describedby="search-help">
+                <span id="search-help" class="sr-only">Enter keywords to search for rental items</span>
+                <label for="sort-select" class="sr-only">Sort results by</label>
+                <select id="sort-select" aria-label="Sort search results">
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="browse-content">
+            <aside class="filter-sidebar" role="complementary" aria-labelledby="filters-heading">
+                <h3 id="filters-heading">Filters</h3>
+
+                <div class="filter-group" role="group" aria-labelledby="category-heading">
+                    <h4 id="category-heading">Category</h4>
+                    <div class="filter-options">
+                        <label><input type="checkbox" name="category" value="electronics"
+                                aria-describedby="category-heading"> Electronics</label>
+                        <label><input type="checkbox" name="category" value="tools" aria-describedby="category-heading">
+                            Tools & Equipment</label>
+                        <label><input type="checkbox" name="category" value="sports"
+                                aria-describedby="category-heading"> Sports & Recreation</label>
+                        <label><input type="checkbox" name="category" value="home-garden"
+                                aria-describedby="category-heading"> Home & Garden</label>
+                        <label><input type="checkbox" name="category" value="automotive"
+                                aria-describedby="category-heading"> Automotive</label>
+                        <label><input type="checkbox" name="category" value="clothing"
+                                aria-describedby="category-heading"> Clothing & Accessories</label>
+                        <label><input type="checkbox" name="category" value="books"
+                                aria-describedby="category-heading"> Books & Media</label>
+                        <label><input type="checkbox" name="category" value="other"
+                                aria-describedby="category-heading"> Other</label>
+                    </div>
+                </div>
+
+                <div class="filter-group" role="group" aria-labelledby="price-heading">
+                    <h4 id="price-heading">Price Range</h4>
+                    <div class="price-range">
+                        <label for="price-min" class="sr-only">Minimum price</label>
+                        <input type="range" id="price-min" min="0" max="500" value="0" aria-label="Minimum price"
+                            aria-describedby="price-min-value">
+                        <span id="price-min-value" class="sr-only">Minimum: ₹0</span>
+
+                        <label for="price-max" class="sr-only">Maximum price</label>
+                        <input type="range" id="price-max" min="0" max="500" value="500" aria-label="Maximum price"
+                            aria-describedby="price-max-value">
+                        <span id="price-max-value" class="sr-only">Maximum: ₹500</span>
+
+                        <div class="price-labels" aria-hidden="true">
+                            <span>₹0</span>
+                            <span>₹500+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group" role="group" aria-labelledby="location-heading">
+                    <h4 id="location-heading">Location</h4>
+                    <label for="location-filter" class="sr-only">Filter by location</label>
+                    <input type="text" id="location-filter" placeholder="Enter location"
+                        aria-describedby="location-heading">
+                </div>
+
+                <div class="filter-group" role="group" aria-labelledby="rating-heading">
+                    <h4 id="rating-heading">Rating</h4>
+                    <div class="rating-filter">
+                        <label><input type="radio" name="rating" value="4" aria-describedby="rating-heading"> <span
+                                aria-hidden="true">4+ Stars</span><span class="sr-only">4 stars and above</span></label>
+                        <label><input type="radio" name="rating" value="3" aria-describedby="rating-heading"> <span
+                                aria-hidden="true">3+ Stars</span><span class="sr-only">3 stars and above</span></label>
+                        <label><input type="radio" name="rating" value="2" aria-describedby="rating-heading"> <span
+                                aria-hidden="true">2+ Stars</span><span class="sr-only">2 stars and above</span></label>
+                    </div>
+                </div>
+
+                <button class="clear-filters" aria-label="Clear all applied filters">Clear All Filters</button>
+            </aside>
+
+            <section class="items-section" role="main" aria-labelledby="results-heading">
+                <div class="results-info">
+                    <h2 id="results-heading" class="sr-only">Search Results</h2>
+                    <span id="results-count" aria-live="polite" aria-atomic="true">Loading items...</span>
+                </div>
+
+                <div class="items-grid" id="items-grid" role="list" aria-label="Rental items" aria-live="polite">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+
+                <nav class="pagination" role="navigation" aria-label="Search results pagination">
+                    <button id="prev-page" disabled aria-label="Go to previous page">Previous</button>
+                    <span id="page-info" aria-live="polite">Page 1 of 1</span>
+                    <button id="next-page" disabled aria-label="Go to next page">Next</button>
+                </nav>
+            </section>
+        </div>
+    </main>
+
+    <!-- Core modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/booking.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/sample-data.js"></script>
+
+    <!-- Navigation and routing -->
+    <script src="js/router.js"></script>
+
+    <!-- Navbar cleanup -->
+    <script src="js/navbar-cleanup.js"></script>
+
+    <!-- Page-specific modules -->
+    <script src="js/browse.js"></script>
+
+    <!-- Accessibility enhancements -->
+    <script src="js/accessibility.js"></script>
+
+    <!-- Pirate theme animations -->
+    <script src="js/pirate-animations.js"></script>
+
+    <!-- Application finalization -->
+    <script src="js/app-finalizer.js"></script>
+
+    <!-- Main application -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

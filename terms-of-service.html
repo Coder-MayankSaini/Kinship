@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2563eb">
+    <title>Terms of Service - Kinship</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/favicon.png">
+    <link rel="shortcut icon" href="assets/images/favicon.png">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <style>
+        /* Enhanced Legal Page Styling */
+        .legal-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 2rem 4rem;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            min-height: 100vh;
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .legal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 167, 81, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+
+        .legal-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #1a202c 0%, #4a5568 50%, #d4a751 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: shimmer 3s ease-in-out infinite;
+            letter-spacing: -0.02em;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .legal-subtitle {
+            color: #64748b;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 167, 81, 0.2);
+            display: inline-block;
+        }
+
+        .legal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 8px 20px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            padding: 3.5rem;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .legal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4a751, #b8941f, #d4a751);
+            background-size: 200% 100%;
+            animation: gradient-slide 3s ease infinite;
+        }
+
+        @keyframes gradient-slide {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .legal-section {
+            margin-bottom: 3rem;
+            padding: 1.5rem 0;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .legal-section:hover {
+            background: rgba(248, 250, 252, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 0 0.75rem 1rem;
+            border-left: 4px solid #d4a751;
+            background: linear-gradient(135deg, rgba(212, 167, 81, 0.1) 0%, transparent 100%);
+            border-radius: 0 12px 12px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #d4a751, #b8941f);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s ease;
+        }
+
+        .legal-section:hover .section-title::before {
+            transform: scaleY(1);
+        }
+
+        .section-content {
+            color: #374151;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            padding-left: 1rem;
+        }
+
+        .section-content p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .subsection {
+            margin: 2rem 0;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(248, 250, 252, 0.6);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .subsection:hover {
+            background: rgba(248, 250, 252, 0.9);
+            border-color: rgba(212, 167, 81, 0.3);
+            transform: translateX(8px);
+        }
+
+        .subsection-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subsection-title::before {
+            content: '●';
+            color: #d4a751;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .legal-list {
+            padding-left: 2rem;
+            margin: 1.2rem 0;
+        }
+
+        .legal-list li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .legal-list li:hover {
+            color: #1a202c;
+            transform: translateX(4px);
+        }
+
+        .legal-list li::before {
+            content: '→';
+            position: absolute;
+            left: -1.5rem;
+            color: #d4a751;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .legal-list li:hover::before {
+            transform: translateX(4px);
+            color: #b8941f;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fffbeb 0%, #fefce8 100%);
+            border: 2px solid #fde047;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(253, 224, 71, 0.2);
+        }
+
+        .highlight::before {
+            content: '💡';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #cbd5e0;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 10px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 167, 81, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #d4a751 0%, #b8941f 100%);
+            color: #2d1b0e;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 16px rgba(212, 167, 81, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #e2b965 0%, #c9a533 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(212, 167, 81, 0.4);
+            text-decoration: none;
+            color: #2d1b0e;
+        }
+
+        .back-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 768px) {
+            .legal-page {
+                padding: 80px 1rem 2rem;
+            }
+
+            .legal-content {
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+            }
+
+            .legal-header {
+                margin-bottom: 2.5rem;
+            }
+
+            .legal-section {
+                margin-bottom: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+                padding: 0.5rem 0 0.5rem 0.75rem;
+            }
+
+            .subsection {
+                margin: 1.5rem 0;
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .legal-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .back-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .legal-page {
+                background: white;
+                padding: 1rem;
+                max-width: none;
+            }
+
+            .back-button {
+                display: none;
+            }
+
+            .legal-content {
+                box-shadow: none;
+                background: white;
+                border: 1px solid #ccc;
+            }
+
+            .legal-header::before,
+            .legal-content::before,
+            .contact-info::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <img src="assets/images/kinship_logo.webp" alt="Kinship" class="logo-image">
+                    </a>
+                </div>
+                <ul class="nav-menu" id="nav-menu" aria-hidden="true">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="list-item.html">List Item</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="auth.html">Login</a></li>
+                </ul>
+                <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
+                    aria-controls="nav-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="legal-page">
+        <a href="javascript:history.back()" class="back-button">
+            ← Back
+        </a>
+
+        <div class="legal-header">
+            <h1 class="legal-title">Terms of Service</h1>
+            <p class="legal-subtitle">Last updated: September 5, 2025</p>
+        </div>
+
+        <div class="legal-content">
+            <div class="legal-section">
+                <h2 class="section-title">1. Agreement to Terms</h2>
+                <div class="section-content">
+                    <p>By accessing and using Kinship ("the Platform"), you agree to be bound by these Terms of Service
+                        ("Terms"). If you do not agree to these Terms, please do not use our Platform.</p>
+
+                    <div class="highlight">
+                        <strong>Important:</strong> These Terms constitute a legally binding agreement between you and
+                        Kinship. Please read them carefully.
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">2. Description of Service</h2>
+                <div class="section-content">
+                    <p>Kinship is a peer-to-peer rental marketplace that allows users to rent and list items within
+                        their community. Our Platform facilitates connections between item owners ("Hosts") and renters
+                        ("Guests").</p>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">Platform Services Include:</h3>
+                        <ul class="legal-list">
+                            <li>Item listing and discovery tools</li>
+                            <li>Communication platform between users</li>
+                            <li>Booking and payment processing</li>
+                            <li>Review and rating system</li>
+                            <li>Community guidelines enforcement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">3. User Responsibilities</h2>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3 class="subsection-title">For All Users:</h3>
+                        <ul class="legal-list">
+                            <li>Provide accurate and truthful information</li>
+                            <li>Maintain the security of your account</li>
+                            <li>Comply with all applicable laws and regulations</li>
+                            <li>Respect other users and their property</li>
+                            <li>Use the Platform only for its intended purpose</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">For Hosts (Item Owners):</h3>
+                        <ul class="legal-list">
+                            <li>Accurately describe items and their condition</li>
+                            <li>Ensure items are safe and functional</li>
+                            <li>Honor booking commitments</li>
+                            <li>Set fair and reasonable pricing</li>
+                            <li>Provide clear usage instructions</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">For Guests (Renters):</h3>
+                        <ul class="legal-list">
+                            <li>Use items responsibly and as intended</li>
+                            <li>Return items in the same condition</li>
+                            <li>Pay all fees and deposits promptly</li>
+                            <li>Follow host instructions and guidelines</li>
+                            <li>Report any damage immediately</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">4. Prohibited Activities</h2>
+                <div class="section-content">
+                    <p>The following activities are strictly prohibited on our Platform:</p>
+                    <ul class="legal-list">
+                        <li>Fraudulent or misleading listings</li>
+                        <li>Harassment or inappropriate behavior</li>
+                        <li>Listing illegal or dangerous items</li>
+                        <li>Circumventing Platform fees or payments</li>
+                        <li>Creating fake accounts or reviews</li>
+                        <li>Violating intellectual property rights</li>
+                        <li>Spamming or unsolicited communications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">5. Payments and Fees</h2>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3 class="subsection-title">Platform Fees:</h3>
+                        <ul class="legal-list">
+                            <li>Host fee: 3% of rental amount</li>
+                            <li>Guest fee: 2% of rental amount + payment processing</li>
+                            <li>Fees are subject to change with 30 days notice</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">Payment Terms:</h3>
+                        <ul class="legal-list">
+                            <li>All payments processed through our secure platform</li>
+                            <li>Security deposits held until item return</li>
+                            <li>Refunds subject to cancellation policy</li>
+                            <li>Dispute resolution may affect payment release</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">6. Liability and Insurance</h2>
+                <div class="section-content">
+                    <p>Kinship provides a platform for connecting users but is not a party to rental agreements. Users
+                        are responsible for their own actions and property.</p>
+
+                    <div class="highlight">
+                        <strong>Important:</strong> Kinship is not liable for damages, losses, or injuries arising from
+                        rentals. Users are encouraged to obtain appropriate insurance coverage.
+                    </div>
+
+                    <div class="subsection">
+                        <h3 class="subsection-title">Platform Protection:</h3>
+                        <ul class="legal-list">
+                            <li>Basic protection for qualifying rentals up to ₹10,000</li>
+                            <li>Coverage subject to terms and investigation</li>
+                            <li>Users must report issues within 24 hours</li>
+                            <li>Protection does not cover negligence or misuse</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">7. Account Termination</h2>
+                <div class="section-content">
+                    <p>We reserve the right to suspend or terminate accounts for violations of these Terms, including
+                        but not limited to:</p>
+                    <ul class="legal-list">
+                        <li>Repeated policy violations</li>
+                        <li>Fraudulent activity</li>
+                        <li>Safety concerns</li>
+                        <li>Legal compliance issues</li>
+                    </ul>
+
+                    <p>Users may close their accounts at any time by contacting support. Outstanding obligations remain
+                        valid after account closure.</p>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">8. Privacy and Data</h2>
+                <div class="section-content">
+                    <p>Your privacy is important to us. Please review our Privacy Policy to understand how we collect,
+                        use, and protect your information. By using our Platform, you consent to our data practices as
+                        described in our Privacy Policy.</p>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">9. Changes to Terms</h2>
+                <div class="section-content">
+                    <p>We may update these Terms from time to time. Users will be notified of material changes via email
+                        or Platform notification. Continued use of the Platform after changes constitutes acceptance of
+                        the new Terms.</p>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2 class="section-title">10. Governing Law</h2>
+                <div class="section-content">
+                    <p>These Terms are governed by the laws of India. Any disputes will be resolved through binding
+                        arbitration in accordance with Indian Arbitration and Conciliation Act, 2015.</p>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h3 style="margin-top: 0; color: #1a202c;">Contact Information</h3>
+                <p>If you have questions about these Terms of Service, please contact us:</p>
+                <ul style="margin: 0; padding-left: 1rem;">
+                    <li>Email: legal@kinship.com</li>
+                    <li>Address: Kinship Legal Department, Mumbai, India</li>
+                    <li>Phone: +91-XXX-XXX-XXXX</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Core modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+
+    <!-- Navigation and routing -->
+    <script src="js/router.js"></script>
+
+    <!-- Navbar cleanup -->
+    <script src="js/navbar-cleanup.js"></script>
+
+    <!-- Accessibility enhancements -->
+    <script src="js/accessibility.js"></script>
+
+    <!-- Application finalization -->
+    <script src="js/app-finalizer.js"></script>
+
+    <!-- Main application -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
