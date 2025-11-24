@@ -44,6 +44,11 @@ function ProfilePage() {
 
     // Load user bookings
     const bookings = await supabaseService.getUserBookings(currentUser.id)
+    console.log('Current User ID:', currentUser.id)
+    console.log('Fetched Bookings:', bookings)
+    bookings.forEach(b => {
+      console.log(`Booking ${b.id}: status='${b.status}', owner_id='${b.owner_id}', match=${b.owner_id === currentUser.id}`)
+    })
     setUserBookings(bookings)
 
     // Load favorite items

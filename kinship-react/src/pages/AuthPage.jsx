@@ -18,7 +18,7 @@ function AuthPage() {
   })
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const { login, register } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -41,44 +41,44 @@ function AuthPage() {
 
   const validateForm = () => {
     const newErrors = {}
-    
+
     if (!formData.email) {
       newErrors.email = 'Email is required'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid'
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Password is required'
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters'
     }
-    
+
     if (!isLogin) {
       if (!formData.firstName) {
         newErrors.firstName = 'First name is required'
       }
-      
+
       if (!formData.lastName) {
         newErrors.lastName = 'Last name is required'
       }
-      
+
       if (!formData.confirmPassword) {
         newErrors.confirmPassword = 'Please confirm your password'
       } else if (formData.password !== formData.confirmPassword) {
         newErrors.confirmPassword = 'Passwords do not match'
       }
-      
+
       if (!formData.phone) {
         newErrors.phone = 'Phone number is required'
       } else if (!/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(formData.phone.replace(/\s/g, ''))) {
         newErrors.phone = 'Please enter a valid phone number'
       }
-      
+
       if (!formData.location) {
         newErrors.location = 'Location is required'
       }
-      
+
       if (!formData.dateOfBirth) {
         newErrors.dateOfBirth = 'Date of birth is required'
       } else {
@@ -88,22 +88,22 @@ function AuthPage() {
         }
       }
     }
-    
+
     return newErrors
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     const validationErrors = validateForm()
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
       return
     }
-    
+
     setIsLoading(true)
     setErrors({})
-    
+
     try {
       let success
       if (isLogin) {
@@ -116,7 +116,7 @@ function AuthPage() {
         }
         success = await register(registrationData)
       }
-      
+
       if (success) {
         navigate(from, { replace: true })
       }
@@ -194,7 +194,7 @@ function AuthPage() {
                     />
                     {errors.firstName && <span className="error-text">{errors.firstName}</span>}
                   </div>
-                  
+
                   <div className="form-group">
                     <label htmlFor="lastName">Last Name *</label>
                     <input
@@ -269,7 +269,7 @@ function AuthPage() {
                   />
                   {errors.phone && <span className="error-text">{errors.phone}</span>}
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="location">Location *</label>
                   <input
@@ -283,7 +283,7 @@ function AuthPage() {
                   />
                   {errors.location && <span className="error-text">{errors.location}</span>}
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="dateOfBirth">Date of Birth *</label>
                   <input
@@ -297,7 +297,7 @@ function AuthPage() {
                   />
                   {errors.dateOfBirth && <span className="error-text">{errors.dateOfBirth}</span>}
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="bio">Bio (Optional)</label>
                   <textarea
@@ -321,10 +321,10 @@ function AuthPage() {
             {isLogin ? (
               <>
                 <p className="auth-switch">
-                  Don't have an account? 
-                  <button 
-                    type="button" 
-                    className="link-btn" 
+                  Don't have an account?
+                  <button
+                    type="button"
+                    className="link-btn"
                     onClick={() => handleTabSwitch(false)}
                   >
                     Sign up
@@ -334,10 +334,10 @@ function AuthPage() {
               </>
             ) : (
               <p className="auth-switch">
-                Already have an account? 
-                <button 
-                  type="button" 
-                  className="link-btn" 
+                Already have an account?
+                <button
+                  type="button"
+                  className="link-btn"
                   onClick={() => handleTabSwitch(true)}
                 >
                   Log in
