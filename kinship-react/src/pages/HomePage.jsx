@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ItemCard from '../components/ItemCard'
 import { storageService } from '../services/storageService'
+import { supabaseService } from '../services/supabaseService'
 import { getSampleListings } from '../utils/sampleData'
 
 function HomePage() {
@@ -13,15 +14,15 @@ function HomePage() {
     loadFeaturedItems()
   }, [])
 
-  const loadFeaturedItems = () => {
-    // Get listings from storage or use sample data
-    let listings = storageService.getListings()
-    
-    if (listings.length === 0) {
+  const loadFeaturedItems = async () => {
+    // Get listings from Supabase
+    let listings = await supabaseService.getListings()
+
+    if (!listings || listings.length === 0) {
       // Use sample data if no listings exist
       listings = getSampleListings().slice(0, 8)
     }
-    
+
     // Get first 8 items as featured
     setFeaturedItems(listings.slice(0, 8))
   }
@@ -94,8 +95,8 @@ function HomePage() {
           <h2 id="categories-heading">Popular Categories</h2>
           <div className="category-grid" role="list" aria-label="Browse rental categories">
             <div className="category-card" role="listitem">
-              <button 
-                className="category-button" 
+              <button
+                className="category-button"
                 onClick={() => handleCategoryClick('electronics')}
                 aria-label="Browse Electronics category"
               >
@@ -104,7 +105,7 @@ function HomePage() {
               </button>
             </div>
             <div className="category-card" role="listitem">
-              <button 
+              <button
                 className="category-button"
                 onClick={() => handleCategoryClick('fashion')}
                 aria-label="Browse Fashion category"
@@ -114,7 +115,7 @@ function HomePage() {
               </button>
             </div>
             <div className="category-card" role="listitem">
-              <button 
+              <button
                 className="category-button"
                 onClick={() => handleCategoryClick('sports')}
                 aria-label="Browse Sports category"
@@ -124,7 +125,7 @@ function HomePage() {
               </button>
             </div>
             <div className="category-card" role="listitem">
-              <button 
+              <button
                 className="category-button"
                 onClick={() => handleCategoryClick('vehicles')}
                 aria-label="Browse Vehicles category"

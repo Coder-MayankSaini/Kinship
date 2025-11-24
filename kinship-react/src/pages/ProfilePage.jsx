@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Navigate, Link, useNavigate } from 'react-router-dom'
 import ItemCard from '../components/ItemCard'
 import { storageService } from '../services/storageService'
+import { supabaseService } from '../services/supabaseService'
 import { getSampleListings } from '../utils/sampleData'
 import { formatDate, formatCurrency } from '../utils/helpers'
 
@@ -27,7 +28,7 @@ function ProfilePage() {
     }
   }, [currentUser, activeTab])
 
-  const loadUserData = () => {
+  const loadUserData = async () => {
     // Load user profile data
     setProfileData({
       name: currentUser.profile?.name || '',
@@ -38,12 +39,11 @@ function ProfilePage() {
     })
 
     // Load user listings
-    const allListings = [...storageService.getListings(), ...getSampleListings()]
-    const myListings = allListings.filter(item => item.owner?.id === currentUser.id)
-    setUserListings(myListings)
+    const myListings = await supabaseService.getListingsByOwner(currentUser.id)
+    setUserListings(myListings || [])
 
     // Load user bookings
-    const bookings = storageService.getUserBookings(currentUser.id)
+    const bookings = await supabaseService.getUserBookings(currentUser.id)
     setUserBookings(bookings)
 
     // Load favorite items
@@ -57,7 +57,7 @@ function ProfilePage() {
 
   const handleProfileUpdate = (e) => {
     e.preventDefault()
-    
+
     // Update user profile in storage
     const updatedUser = {
       ...currentUser,
@@ -66,7 +66,7 @@ function ProfilePage() {
         ...profileData
       }
     }
-    
+
     storageService.saveUser(updatedUser)
     storageService.setCurrentUser(updatedUser)
     alert('Profile updated successfully!')
@@ -112,10 +112,10 @@ function ProfilePage() {
                   {userBookings.filter(b => b.status === 'active').length > 0 ? (
                     userBookings.filter(b => b.status === 'active').map(booking => (
                       <div key={booking.id} className="rental-item">
-                        <h4>Booking #{booking.id}</h4>
-                        <p>Item: {booking.itemId}</p>
-                        <p>Dates: {formatDate(booking.startDate)} - {formatDate(booking.endDate)}</p>
-                        <p>Total: {formatCurrency(booking.totalCost)}</p>
+                        <h4>Booking #{booking.id.substring(0, 8)}</h4>
+                        <p>Item: {booking.listings?.title || 'Unknown Item'}</p>
+                        <p>Dates: {formatDate(booking.start_date)} - {formatDate(booking.end_date)}</p>
+                        <p>Total: {formatCurrency(booking.total_cost)}</p>
                         <p>Status: {booking.status}</p>
                       </div>
                     ))
@@ -124,17 +124,17 @@ function ProfilePage() {
                   )}
                 </div>
               </div>
-              
+
               <div className="rental-section">
                 <h3>Past Rentals</h3>
                 <div className="rentals-list">
                   {userBookings.filter(b => b.status === 'completed').length > 0 ? (
                     userBookings.filter(b => b.status === 'completed').map(booking => (
                       <div key={booking.id} className="rental-item">
-                        <h4>Booking #{booking.id}</h4>
-                        <p>Item: {booking.itemId}</p>
-                        <p>Dates: {formatDate(booking.startDate)} - {formatDate(booking.endDate)}</p>
-                        <p>Total: {formatCurrency(booking.totalCost)}</p>
+                        <h4>Booking #{booking.id.substring(0, 8)}</h4>
+                        <p>Item: {booking.listings?.title || 'Unknown Item'}</p>
+                        <p>Dates: {formatDate(booking.start_date)} - {formatDate(booking.end_date)}</p>
+                        <p>Total: {formatCurrency(booking.total_cost)}</p>
                         <p>Status: {booking.status}</p>
                       </div>
                     ))
@@ -156,13 +156,13 @@ function ProfilePage() {
                 <h3>Pending Requests</h3>
                 <div className="booking-requests-list">
                   {userBookings.filter(b => b.status === 'pending' && b.ownerId === currentUser.id).length > 0 ? (
-                    userBookings.filter(b => b.status === 'pending' && b.ownerId === currentUser.id).map(booking => (
+                    userBookings.filter(b => b.status === 'pending' && b.owner_id === currentUser.id).map(booking => (
                       <div key={booking.id} className="booking-request">
-                        <h4>Booking Request #{booking.id}</h4>
-                        <p>Item: {booking.itemId}</p>
-                        <p>Requested by: User {booking.userId}</p>
-                        <p>Dates: {formatDate(booking.startDate)} - {formatDate(booking.endDate)}</p>
-                        <p>Total: {formatCurrency(booking.totalCost)}</p>
+                        <h4>Booking Request #{booking.id.substring(0, 8)}</h4>
+                        <p>Item: {booking.listings?.title || 'Unknown Item'}</p>
+                        <p>Requested by: User {booking.user_id.substring(0, 8)}</p>
+                        <p>Dates: {formatDate(booking.start_date)} - {formatDate(booking.end_date)}</p>
+                        <p>Total: {formatCurrency(booking.total_cost)}</p>
                         {booking.message && <p>Message: {booking.message}</p>}
                         <div className="booking-actions">
                           <button className="btn-primary" onClick={() => alert('Accept feature coming soon!')}>Accept</button>
@@ -209,7 +209,7 @@ function ProfilePage() {
                   <p>No reviews written yet.</p>
                 </div>
               </div>
-              
+
               <div className="review-section">
                 <h3>Reviews About My Items</h3>
                 <div className="reviews-list">
@@ -298,9 +298,9 @@ function ProfilePage() {
       <div className="profile-header">
         <div className="profile-info">
           <div className="profile-avatar">
-            <img 
+            <img
               src={currentUser.profile?.avatar || `https://ui-avatars.com/api/?name=${currentUser.profile?.name || 'User'}&background=2563eb&color=fff`}
-              alt="User Avatar" 
+              alt="User Avatar"
             />
           </div>
           <div className="profile-details">

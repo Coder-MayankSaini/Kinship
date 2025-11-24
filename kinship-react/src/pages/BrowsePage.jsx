@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ItemCard from '../components/ItemCard'
 import { storageService } from '../services/storageService'
+import { supabaseService } from '../services/supabaseService'
 import { getSampleListings } from '../utils/sampleData'
 import { debounce } from '../utils/helpers'
 
@@ -24,15 +25,15 @@ function BrowsePage() {
   // Load items on mount
   useEffect(() => {
     loadItems()
-    
+
     // Check URL parameters
     const searchFromUrl = searchParams.get('search') || ''
     const categoryFromUrl = searchParams.get('category') || ''
-    
+
     if (searchFromUrl) {
       setSearchQuery(searchFromUrl)
     }
-    
+
     if (categoryFromUrl) {
       setFilters(prev => ({
         ...prev,
@@ -41,14 +42,14 @@ function BrowsePage() {
     }
   }, [])
 
-  const loadItems = () => {
-    let listings = storageService.getListings()
-    
-    if (listings.length === 0) {
+  const loadItems = async () => {
+    let listings = await supabaseService.getListings()
+
+    if (!listings || listings.length === 0) {
       // Use sample data if no listings exist
       listings = getSampleListings()
     }
-    
+
     setItems(listings)
     setFilteredItems(listings)
   }
@@ -180,7 +181,7 @@ function BrowsePage() {
             aria-describedby="search-help"
           />
           <span id="search-help" className="sr-only">Enter keywords to search for rental items</span>
-          
+
           <label htmlFor="sort-select" className="sr-only">Sort results by</label>
           <select
             id="sort-select"
@@ -232,7 +233,7 @@ function BrowsePage() {
                 onChange={(e) => handlePriceRangeChange('priceMin', e.target.value)}
                 aria-label="Minimum price"
               />
-              
+
               <label htmlFor="price-max" className="sr-only">Maximum price</label>
               <input
                 type="range"
@@ -243,7 +244,7 @@ function BrowsePage() {
                 onChange={(e) => handlePriceRangeChange('priceMax', e.target.value)}
                 aria-label="Maximum price"
               />
-              
+
               <div className="price-labels" aria-hidden="true">
                 <span>₹{filters.priceMin}</span>
                 <span>₹{filters.priceMax}</span>

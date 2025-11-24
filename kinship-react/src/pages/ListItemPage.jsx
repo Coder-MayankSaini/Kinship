@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { storageService } from '../services/storageService'
+import { supabaseService } from '../services/supabaseService'
 import { generateId } from '../utils/helpers'
 
 function ListItemPage() {
@@ -18,7 +19,9 @@ function ListItemPage() {
     weeklyPrice: '',
     securityDeposit: '',
     availabilityType: 'always',
-    specificDates: []
+    specificDates: [],
+    startDate: '',
+    endDate: ''
   })
   const [errors, setErrors] = useState({})
 
@@ -31,7 +34,7 @@ function ListItemPage() {
 
   const validateStep = (step) => {
     const newErrors = {}
-    
+
     switch (step) {
       case 1:
         if (!formData.title || formData.title.length < 5) {
@@ -49,7 +52,7 @@ function ListItemPage() {
         break
       case 2:
         if (formData.images.length === 0) {
-          newErrors.images = 'Please add at least one image URL'
+          newErrors.images = 'Please add at least one image'
         }
         break
       case 3:
@@ -60,8 +63,21 @@ function ListItemPage() {
           newErrors.weeklyPrice = 'Weekly price should offer a discount'
         }
         break
+      case 4:
+        if (formData.availabilityType === 'specific') {
+          if (!formData.startDate) {
+            newErrors.startDate = 'Start date is required'
+          }
+          if (!formData.endDate) {
+            newErrors.endDate = 'End date is required'
+          }
+          if (formData.startDate && formData.endDate && formData.startDate > formData.endDate) {
+            newErrors.endDate = 'End date must be after start date'
+          }
+        }
+        break
     }
-    
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -85,13 +101,45 @@ function ListItemPage() {
     }
   }
 
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = React.useRef(null)
+
   const handleImageAdd = () => {
-    const imageUrl = prompt('Enter image URL:')
-    if (imageUrl) {
+    if (formData.images.length >= 4) {
+      alert('You can only upload up to 4 images')
+      return
+    }
+    fileInputRef.current?.click()
+  }
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (formData.images.length >= 4) {
+      alert('You can only upload up to 4 images')
+      return
+    }
+
+    try {
+      setUploading(true)
+      console.log('Uploading file:', file.name)
+      const publicUrl = await supabaseService.uploadImage(file)
+      console.log('Upload successful, URL:', publicUrl)
+
       setFormData(prev => ({
         ...prev,
-        images: [...prev.images, imageUrl]
+        images: [...prev.images, publicUrl]
       }))
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      alert('Failed to upload image. Please try again.')
+    } finally {
+      setUploading(false)
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
@@ -102,14 +150,15 @@ function ListItemPage() {
     }))
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!currentUser) {
       alert('Please log in to list an item')
       return
     }
 
+    // Prepare listing object for Supabase
+    // Note: We're keeping the structure but removing the ID to let Supabase generate it
     const newListing = {
-      id: generateId(),
       title: formData.title,
       description: formData.description,
       category: formData.category,
@@ -127,15 +176,22 @@ function ListItemPage() {
         rating: currentUser.profile?.rating || 0
       },
       availability: formData.availabilityType === 'always',
-      availableDates: formData.specificDates,
+      available_dates: formData.availabilityType === 'specific'
+        ? { start: formData.startDate, end: formData.endDate }
+        : null,
       rating: 0,
-      reviewCount: 0,
-      createdAt: new Date().toISOString()
+      review_count: 0, // snake_case
+      created_at: new Date().toISOString() // snake_case
     }
 
-    storageService.saveListing(newListing)
-    alert('Item listed successfully!')
-    navigate('/profile')
+    try {
+      await supabaseService.saveListing(newListing)
+      alert('Item listed successfully!')
+      navigate('/profile')
+    } catch (error) {
+      console.error('Error saving listing:', error)
+      alert('Failed to save listing. Please try again.')
+    }
   }
 
   const renderStep = () => {
@@ -215,22 +271,55 @@ function ListItemPage() {
           <div className="form-step active" data-step="2">
             <h2>Add Photos</h2>
             <p>Add image URLs for your item</p>
-            
+
             <div className="photo-upload-area">
-              <button type="button" className="browse-btn" onClick={handleImageAdd}>
-                Add Image URL
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                accept="image/*"
+                style={{ display: 'none' }}
+              />
+              <button
+                type="button"
+                className="browse-btn"
+                onClick={handleImageAdd}
+                disabled={uploading || formData.images.length >= 4}
+              >
+                {uploading ? 'Uploading...' : formData.images.length >= 4 ? 'Max Images Reached' : 'Add Photo'}
               </button>
-              
-              <div className="uploaded-photos">
+              <p className="upload-hint">Max 4 images allowed. ({formData.images.length}/4)</p>
+
+              <div className="uploaded-photos" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '15px' }}>
                 {formData.images.map((image, index) => (
-                  <div key={index} className="photo-preview">
-                    <img src={image} alt={`Item ${index + 1}`} />
-                    <button 
-                      type="button" 
-                      className="remove-photo" 
+                  <div key={index} className="photo-preview" style={{ position: 'relative', width: '100px', height: '100px' }}>
+                    <img
+                      src={image}
+                      alt={`Item ${index + 1}`}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }}
+                    />
+                    <button
+                      type="button"
+                      className="remove-photo"
                       onClick={() => handleImageRemove(index)}
+                      style={{
+                        position: 'absolute',
+                        top: '-5px',
+                        right: '-5px',
+                        background: 'red',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '20px',
+                        height: '20px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '12px'
+                      }}
                     >
-                      Remove
+                      X
                     </button>
                   </div>
                 ))}
@@ -244,7 +333,7 @@ function ListItemPage() {
         return (
           <div className="form-step active" data-step="3">
             <h2>Set Your Pricing</h2>
-            
+
             <div className="pricing-options">
               <div className="form-group">
                 <label htmlFor="daily-price">Daily Rate *</label>
@@ -311,7 +400,7 @@ function ListItemPage() {
         return (
           <div className="form-step active" data-step="4">
             <h2>Set Availability</h2>
-            
+
             <div className="availability-section">
               <div className="availability-options">
                 <label className="radio-option">
@@ -324,7 +413,7 @@ function ListItemPage() {
                   />
                   <span>Available anytime</span>
                 </label>
-                
+
                 <label className="radio-option">
                   <input
                     type="radio"
@@ -336,10 +425,36 @@ function ListItemPage() {
                   <span>Specific dates only</span>
                 </label>
               </div>
-              
+
               {formData.availabilityType === 'specific' && (
-                <div className="date-picker-section">
-                  <p>Date selection feature coming soon. Items will be available anytime for now.</p>
+                <div className="date-picker-section" style={{ marginTop: '20px' }}>
+                  <div className="form-group">
+                    <label htmlFor="start-date">Start Date</label>
+                    <input
+                      type="date"
+                      id="start-date"
+                      name="startDate"
+                      value={formData.startDate}
+                      onChange={handleInputChange}
+                      min={new Date().toISOString().split('T')[0]}
+                      required
+                    />
+                    {errors.startDate && <span className="error">{errors.startDate}</span>}
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="end-date">End Date</label>
+                    <input
+                      type="date"
+                      id="end-date"
+                      name="endDate"
+                      value={formData.endDate}
+                      onChange={handleInputChange}
+                      min={formData.startDate || new Date().toISOString().split('T')[0]}
+                      required
+                    />
+                    {errors.endDate && <span className="error">{errors.endDate}</span>}
+                  </div>
                 </div>
               )}
             </div>
@@ -350,7 +465,7 @@ function ListItemPage() {
         return (
           <div className="form-step active" data-step="5">
             <h2>Review Your Listing</h2>
-            
+
             <div className="review-section">
               <h3>Item Details</h3>
               <div className="review-item">
@@ -412,8 +527,8 @@ function ListItemPage() {
       <div className="listing-form-container">
         <div className="form-progress">
           {[1, 2, 3, 4, 5].map(step => (
-            <div 
-              key={step} 
+            <div
+              key={step}
               className={`progress-step ${currentStep === step ? 'active' : ''} ${currentStep > step ? 'completed' : ''}`}
               data-step={step}
             >
@@ -431,14 +546,14 @@ function ListItemPage() {
 
         <form className="listing-form" onSubmit={(e) => e.preventDefault()}>
           {renderStep()}
-          
+
           <div className="form-navigation">
             {currentStep > 1 && (
               <button type="button" className="btn-secondary" onClick={handlePrev}>
                 Previous
               </button>
             )}
-            
+
             {currentStep < 5 ? (
               <button type="button" className="btn-primary" onClick={handleNext}>
                 Next

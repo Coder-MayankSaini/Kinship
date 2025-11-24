@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { storageService } from '../services/storageService'
+
 import { authService } from '../services/authService'
 
 const AuthContext = createContext()
@@ -17,23 +17,32 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Load current user from storage on mount
-    const user = storageService.getCurrentUser()
-    if (user) {
-      setCurrentUser(user)
+    // Check active session on mount
+    const initAuth = async () => {
+      try {
+        const user = await authService.getCurrentUser()
+        setCurrentUser(user)
+      } catch (error) {
+        console.error('Error initializing auth:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-    setLoading(false)
+
+    initAuth()
+
+    // Listen for auth changes
+    // We can import supabase here or add a listener method to authService.
+    // For simplicity, let's just rely on the initial check and manual updates for now, 
+    // or we can import supabase to listen.
+    // Let's import supabase to be reactive.
   }, [])
 
   const login = async (email, password) => {
     try {
       const user = await authService.login(email, password)
-      if (user) {
-        setCurrentUser(user)
-        storageService.setCurrentUser(user)
-        return true
-      }
-      return false
+      setCurrentUser(user)
+      return true
     } catch (error) {
       throw error
     }
@@ -42,21 +51,20 @@ export function AuthProvider({ children }) {
   const register = async (userData) => {
     try {
       const user = await authService.register(userData)
-      if (user) {
-        setCurrentUser(user)
-        storageService.setCurrentUser(user)
-        return true
-      }
-      return false
+      setCurrentUser(user)
+      return true
     } catch (error) {
       throw error
     }
   }
 
-  const logout = () => {
-    authService.logout()
-    setCurrentUser(null)
-    storageService.clearCurrentUser()
+  const logout = async () => {
+    try {
+      await authService.logout()
+      setCurrentUser(null)
+    } catch (error) {
+      console.error('Error logging out:', error)
+    }
   }
 
   const value = {
